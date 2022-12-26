@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="background-image: url('/assets/books.jpg');background-size:cover; background-repeat: no-repeat;"loading="lazy"> 
+  <div class="flash">
+    <flash-messages></flash-messages>
+  </div>
+  <div class="container" >
+    <div class="my card">
+      <header align="center" style="font-size: 30px; font-weight:bolder">புதிய கணக்கை உருவாக்க</header>
+      <div class="myLeftCtn" >
+
+      <div>
+  <div class="row">
+    <div class="col-6">
+    <mat-form-field appearance="fill">
+      <mat-label> Tamil Name</mat-label>
+      <input  autocomplete="off" matInput placeholder="Last name, First name" [(ngModel)]="name_tamil"  required>
+      <mat-icon matSuffix >verified_user</mat-icon>
+    </mat-form-field>
+    </div>
+    <div class="col-6">
+    <mat-form-field appearance="fill" style="padding:5px">
+      <mat-label >ஆங்கிலத்தில் பெயர்</mat-label>
+      <input autocomplete="off" matInput placeholder="ஆங்கிலத்தில் பெயர்"  required  [(ngModel)]="name_english" [ngModelOptions]="{standalone: true}">
+      <mat-icon matSuffix >verified_user</mat-icon>
+    </mat-form-field>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <mat-form-field appearance="fill"  style="padding:5px">
+        <mat-label >முகவரி</mat-label>
+        <input autocomplete="off" matInput placeholder="முகவரி"  required  [(ngModel)]="address" [ngModelOptions]="{standalone: true}" >
+        <mat-icon matSuffix >assignment_ind</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field appearance="fill"  style="padding:5px">
+        <mat-label >நகரம்</mat-label>
+        <input autocomplete="off" matInput placeholder="நகரம்"  required  [(ngModel)]="town" [ngModelOptions]="{standalone: true}" >
+        <mat-icon matSuffix >email</mat-icon>
+      </mat-form-field>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+      <mat-form-field appearance="fill" style="padding:5px">
+        <mat-label >தொடர்பு எண்</mat-label>
+        <input autocomplete="off" matInput placeholder="தொடர்பு எண்"  required [(ngModel)]="contact" [ngModelOptions]="{standalone: true}">
+        <mat-icon matSuffix >settings_cell</mat-icon>
+      </mat-form-field>
+      </div>
+      <div class="col-6">
+      <mat-form-field appearance="fill"  style="padding:5px">
+        <mat-label>பயனர் வகை</mat-label>
+          <mat-select [(ngModel)]="type"  required  [ngModelOptions]="{standalone: true}">
+            <mat-option value="author">Author</mat-option>
+            <mat-option value="publisher">Publisher</mat-option>
+            <mat-option value="artist">Artist</mat-option>
+          </mat-select>
+        <mat-icon matSuffix >label</mat-icon> 
+      </mat-form-field>
+    </div>
+    </div>
+    <!-- <> -->
+    <div class="row">
+      <div class="col-6">
+      <mat-form-field appearance="fill"  style="padding:5px">
+        <mat-label >பயனர் பெயர்</mat-label>
+        <input autocomplete="off" matInput placeholder="பயனர்பெயரை உள்ளிடவும்" required [(ngModel)]="username" [ngModelOptions]="{standalone: true}" >
+        <mat-icon matSuffix >account_circle</mat-icon>
+      </mat-form-field>
+      </div>
+
+      <meta name="Author Photo">
+      <div class="col-6">
+        <div class="row">
+      <div class="col-2">
+        <mat-slide-toggle [(ngModel)]="newimagedataboo" ></mat-slide-toggle>
+      </div>
+      <div align="centered" class="col-8" style="padding-right:10px ;">
+        <div>
+          <label style="font-size:12px;">New Profile Picture</label><br>
+          <input style="font-size:12px;" type="file" (change)="onChange($event)"  [disabled]="newimagedataboo==false" />
+          <mat-hint style="font-size:9px; color: red;">Toggle to enable, if you want to upload your profile <picture></picture></mat-hint>
+          <div *ngIf="myimage">
+            <img [src]="myimage" width="50px" height="50px" alt="" />
+
+          </div>
+        <!-- </div> -->
+      </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+      <mat-form-field appearance="fill"  style="padding:5px">
+        <mat-label >கடவுச்சொல்</mat-label>
+        <input autocomplete="off" matInput placeholder="கடவுச்சொல்"  [type]="password1" required [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+        <mat-icon matSuffix (click)="onClick()" *ngIf="!show">visibility</mat-icon>
+              <mat-icon matSuffix (click)="onClick()" *ngIf="show">visibility_off</mat-icon>
+      </mat-form-field>
+      </div>
+      <div class="col-6">
+      <mat-form-field appearance="fill"  style="padding:5px">
+        <mat-label >கடவுச்சொல்லை உறுதிப்படுத்தவும்</mat-label>
+        <input autocomplete="off" matInput placeholder="கடவுச்சொல்லை உறுதிப்படுத்தவும்" required [type]="password1" [(ngModel)]="confirmpassword" [ngModelOptions]="{standalone: true}" >
+        <mat-icon matSuffix (click)="onClick()" *ngIf="!show">visibility</mat-icon>
+        <mat-icon matSuffix (click)="onClick()" *ngIf="show">visibility_off</mat-icon>
+      </mat-form-field>
+    </div>
+      </div>
+    </div>
+      <div align="end">
+        <div>
+          <p style="color:red;">{{errorMsg}}</p>
+          </div>
+        <button mat-button color="warn" (click)="reset()">Reset</button>
+      <button mat-raised-button color="primary"  (click)="onSubmit()">Submit</button>
+      </div>
+      </div>
+
+</div>
+</div>
+
+       
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+</body>
+</html>

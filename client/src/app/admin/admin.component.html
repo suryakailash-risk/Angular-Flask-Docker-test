@@ -1,0 +1,2218 @@
+<body>
+  <div class="flash">
+    <flash-messages></flash-messages>
+  </div>
+  <mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">
+        menu
+      </mat-icon>
+      <mat-icon *ngIf="sidenav.opened">
+        close
+      </mat-icon>
+    </button>
+    <div class="typing">
+      <div style="font-weight:bold;">நூலகம் தமிழ் நூல் பட்டியல்</div>
+    </div>
+    <button style="color: white; background-color: transparent; border: transparent; right: 10px; position: fixed;"
+      class="emoji-cursor" (click)="logout()"> வெளியேறு</button>
+
+  </mat-toolbar>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+      <img [src]="userDetails.aap_photo" *ngIf="userDetails.aap_photo!='null'" style="background-size: 90%;background-repeat: no-repeat;background-position: 4px 33px ;margin-top: 16px;
+      width: 100px; height: 100px; border-radius: 50%;" />
+      <img *ngIf="userDetails.aap_photo=='null'" class="avatar mat-elevation-z8" />
+
+      <h4 class="name">{{userDetails.aap_name_english}}</h4>
+      <p class="designation">{{userDetails.aap_type}}</p>
+
+      <mat-divider></mat-divider>
+
+      <button mat-button class="menu-button" (click)="openDashBoard()">
+        <!-- dataentry -->
+        <mat-icon><span class="material-icons">
+            dashboard_customize
+          </span></mat-icon>
+        <span style="font-size:12px;">புத்தக நுழைவு</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewBooks()">
+        <!-- allbooks -->
+        <mat-icon><span class="material-icons">
+            import_contacts
+          </span></mat-icon>
+        <span style="font-size:12px;">புத்தகங்கள் நூலகம்</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewAuthor()">
+        <!-- all author -->
+        <mat-icon><span class="material-icons">
+            person_search
+          </span></mat-icon>
+        <span style="font-size:12px;">நூலாசிரியர்</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewPublisher()">
+        <!-- all publisher -->
+        <mat-icon><span class="material-icons">
+            assessment
+          </span></mat-icon>
+        <span style="font-size:12px;"> வெளியீட்டாளர்</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewartist()">
+        <!-- all artist -->
+        <mat-icon><span class="material-icons">
+            bar_chart
+          </span></mat-icon>
+        <span style="font-size:12px;">கலைஞர்கள்</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewsubject()">
+        <!-- all subject -->
+        <mat-icon><span class="material-icons">
+            card_membership
+          </span></mat-icon>
+        <span style="font-size:12px;">பாடங்களும்</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewcategory()">
+        <!-- all catagory -->
+        <mat-icon><span class="material-icons">
+            call_split
+          </span></mat-icon>
+        <span style="font-size:12px;">வகை</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewlanguage()">
+        <!-- all language -->
+        <mat-icon><span class="material-icons">
+            translate
+          </span></mat-icon>
+        <span style="font-size:12px;">மொழி</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewuserlist()">
+        <mat-icon><span class="material-icons">
+            translate
+          </span></mat-icon>
+        <span style="font-size:12px;">பட்டியல்</span>
+      </button>
+      <button mat-button class="menu-button" (click)="openViewprofile()">
+        <mat-icon><span class="material-icons">
+            translate
+          </span></mat-icon>
+        <span style="font-size:12px;">சுயவிவரம்</span>
+      </button>
+
+      <mat-divider></mat-divider>
+
+      <button mat-button class="menu-button" (click)="openhelp()">
+        <mat-icon>help</mat-icon>
+        <span style="font-size:12px;">உதவி</span>
+      </button>
+    </mat-sidenav>
+    <mat-sidenav-content class="maincontent" style="font-size:13px;">
+      <div *ngIf="page=='dashboard'" style="overflow:scroll;">
+        <div style="height: 90vh; width: 90vw; overflow:scroll;">
+
+          <mat-card>
+            <mat-card-title align="center" style="font-weight:bolder;">புத்தகத்தைப் பற்றிய விவரங்கள்</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+            <div class="row">
+
+              <meta name="ISBN">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>ISBN</mat-label>
+                  <input matInput placeholder="ISBN" [(ngModel)]="isbn">
+                  <mat-icon matSuffix><span class="material-icons">
+                      pin
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+
+
+              <meta name="CCNO">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>CCNO</mat-label>
+                  <input matInput placeholder="ccno" [(ngModel)]="ccno">
+                  <mat-icon matSuffix><span class="material-icons">
+                      badge
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="title_code">
+              <div align="center" class="col-3">
+
+                <mat-form-field appearance="fill">
+                  <mat-label>தமிழில் தலைப்பு </mat-label>
+                  <input matInput placeholder="தமிழில் தலைப்பு" [(ngModel)]="title">
+                  <mat-icon matSuffix><span class="material-icons">
+                      title
+                    </span></mat-icon>
+                </mat-form-field>
+
+              </div>
+              <meta name="sub_title_code">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>துணைத்தலைப்பு </mat-label>
+                  <input matInput placeholder="துணைத்தலைப்பு" [(ngModel)]="sub_title">
+                  <mat-icon matSuffix><span class="material-icons">
+                      subtitles
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <meta name="subject_code">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>துறைவகை </mat-label>
+                  <mat-select >
+                    <mat-option *ngFor="let sub of listofsubject" [value]="sub.subject_id">
+                      {{sub.subject_name}}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <input type="text" placeholder="Pick one" aria-label="Number" matInput [matAutocomplete]="auto" [(ngModel)]="subject_code">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let sub of listofsubject | async" [value]="sub.subject_id">
+                      {{sub.subject_name}}
+                    </mat-option>
+                  </mat-autocomplete> -->
+                </mat-form-field>
+                <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                  (click)="onsubjectModal(selectsubjectModal)">
+                  <span class="material-icons">
+                    add
+                  </span>
+                </button>
+              </div>
+
+              <meta name="category">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>வகை</mat-label>
+                  <mat-select [(ngModel)]="category_code">
+                    <mat-option *ngFor="let category of listofcategory" [value]="category.category_id">
+                      {{category.category_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                  (click)="oncatogoryModal(selectcatogoryModal)">
+                  <span class="material-icons">
+                    add
+                  </span>
+                </button>
+              </div>
+
+              <meta name="language_code">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label> மொழி </mat-label>
+                  <mat-select [(ngModel)]="language_code">
+                    <mat-option *ngFor="let lan of listoflanguage" [value]="lan.language_id">
+                      {{lan.language_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                  (click)="onlanguageModal(selectlanguageModal)">
+                  <span class="material-icons">
+                    add
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <meta name="author_code">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label> நூலாசிரியர் </mat-label>
+                  <mat-select [(ngModel)]="author_code">
+                    <mat-option *ngFor="let author of listofauthor" [value]="author.aap_ids">
+                      {{author.aap_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                  (click)="onauthorModal(selectauthorModal)">
+                  <span class="material-icons">
+                    add
+                  </span>
+                </button>
+              </div>
+              <meta name="artist_code">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label> கலைஞர் </mat-label>
+                  <mat-select [(ngModel)]="artist_code">
+                    <mat-option *ngFor="let artist of listofartist" [value]="artist.aap_ids">
+                      {{artist.aap_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                  (click)="onartistModal(selectartistModal)">
+                  <span class="material-icons">
+                    add
+                  </span>
+                </button>
+              </div>
+              <meta name="publisher_code">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label> பதிப்பாளர்கள் </mat-label>
+                  <mat-select [(ngModel)]="publisher_code">
+                    <mat-option *ngFor="let publisher of listofpublisher" [value]="publisher.aap_ids">
+                      {{publisher.aap_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                  (click)="onpublisherModal(selectpublisherModal)">
+                  <span class="material-icons">
+                    add
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <meta name="size">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>Size</mat-label>
+                  <input matInput placeholder="Size" [(ngModel)]="size">
+                  <mat-icon matSuffix><span class="material-icons">
+                      article
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="Pages">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>Pages</mat-label>
+                  <input matInput placeholder="Pages" [(ngModel)]="pages">
+                  <mat-icon matSuffix><span class="material-icons">
+                      auto_stories
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="edition">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>பதிப்பு</mat-label>
+                  <input matInput placeholder="Edition" [(ngModel)]="edition">
+                  <mat-icon matSuffix><span class="material-icons">
+                      money
+                    </span></mat-icon>
+                </mat-form-field>
+
+              </div>
+              <meta name="reprint">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>மறுபதிப்பு</mat-label>
+                  <input matInput placeholder="reprint" [(ngModel)]="reprint">
+                  <mat-icon matSuffix><span class="material-icons">
+                      restart_alt
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="year">
+              <div align="center" class="col-3">
+
+                <mat-form-field appearance="fill">
+                  <mat-label>ஆண்டு</mat-label>
+                  <input matInput placeholder="Year" [(ngModel)]="year">
+                  <mat-icon matSuffix><span class="material-icons">
+                      edit_calendar
+                    </span></mat-icon>
+                </mat-form-field>
+
+              </div>
+              <meta name="copy_rights">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>காப்புரிமை</mat-label>
+                  <input matInput placeholder="Copy Rights" [(ngModel)]="copy_rights">
+                  <mat-icon matSuffix><span class="material-icons">
+                      copyright
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="binding">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>பிணைப்பு</mat-label>
+                  <input matInput placeholder="Binding" [(ngModel)]="binding">
+                  <mat-icon matSuffix><span class="material-icons">
+                      collections_bookmark
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="price">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>விலை</mat-label>
+                  <input matInput placeholder="Price" [(ngModel)]="price">
+                  <mat-icon matSuffix><span class="material-icons">
+                      request_quote
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="weight">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>weight</mat-label>
+                  <input matInput placeholder="weight" [(ngModel)]="weight">
+                  <mat-icon matSuffix><span class="material-icons">
+                      scale
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="annexures">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>இணைப்புகள்</mat-label>
+                  <input matInput placeholder="annexures" [(ngModel)]="annexures">
+                  <mat-icon matSuffix><span class="material-icons">
+                      text_snippet
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="prizes">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>பரிசுகள்</mat-label>
+                  <input matInput placeholder="prizes" [(ngModel)]="prizes">
+                  <mat-icon matSuffix><span class="material-icons">
+                      emoji_events
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+
+              <meta name="miscellaneous">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>miscellaneous</mat-label>
+                  <input matInput placeholder="miscellaneous" [(ngModel)]="miscellaneous">
+                  <mat-icon matSuffix><span class="material-icons">
+                      miscellaneous_services
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="Summary_of_the_book">
+              <div align="center" class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>புத்தகத்தின் சுருக்கம்</mat-label>
+                  <textarea matInput placeholder="Summary_of_the_book" [(ngModel)]="Summary_of_the_book"></textarea>
+                  <mat-icon matSuffix><span class="material-icons">
+                      menu_book
+                    </span></mat-icon>
+                </mat-form-field>
+              </div>
+              <meta name="visibility">
+              <div align="center" class="col-3">
+                <mat-label>visibility</mat-label>
+                <!-- <mat-checkbox class="example-margin" [(ngModel)]="visibility">visibile for public</mat-checkbox> -->
+                <mat-slide-toggle [(ngModel)]="visibility">{{visibility}}</mat-slide-toggle>
+              </div>
+            </div>
+            <div class="row col-12">
+              <div align="center" class="col-3">
+                <div align="right">
+                  <mat-slide-toggle [(ngModel)]="newimagedataboo"></mat-slide-toggle>
+                </div>
+              </div>
+              <div align="center" class="col-3">
+                <div align="left">
+                  <label>அட்டைப் படம்</label>
+                </div>
+                <input type="file" #takeInput [disabled]="newimagedataboo==false" (change)="onimageload($event)" />
+                <div *ngIf="myimage">
+                  <img [src]="myimage" width="50px" height="50px" alt="" />
+                </div>
+              </div>
+              <div align="center" class="col-3">
+                <div align="right">
+                  <mat-slide-toggle [(ngModel)]="newpdfdataboo"></mat-slide-toggle>
+                </div>
+              </div>
+              <div align="center" class="col-3">
+                <div align="left">
+                  <label>புத்தக பதிவேற்றம்</label>
+                </div>
+                <input #takeInput2 [disabled]="newpdfdataboo==false" type="file" (change)="onpdfload($event)">
+              </div>
+            </div>
+
+            <mat-card-actions align="end">
+              <p style="color:red">{{adminerror}}</p>
+              <button mat-button (click)="reset()">RESET</button>
+              <button mat-raised-button color="primary" (click)="submitnewbook()">SUBMIT</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+      <div *ngIf="page=='view_books'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 85vw; overflow:scroll;">
+            <h1 align="center" style="color:#3f51b5; overflow:hidden; white-space:nowrap; font-size: 32px;">
+              <b>புத்தகங்கள் நூலகம்</b></h1>
+            <br>
+            <lable>தேடு</lable>
+            <div class="row">
+
+              <div class="col-3">
+                <mat-form-field appearance="fill">
+                  <mat-label>மூலம் தேடுங்கள்</mat-label>
+                  <mat-select [(ngModel)]="searchdata">
+                    <mat-option value="author">நூலாசிரியர்</mat-option>
+                    <mat-option value="publisher">வெளியீட்டாளர்</mat-option>
+                    <mat-option value="town">வெளியீட்டாளர் நகரம்</mat-option>
+                    <mat-option value="title">தலைப்பு</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <input matInput placeholder="தேடு" [(ngModel)]="searchpublisher">
+                </mat-form-field>
+              </div>
+              <div class="col-6" style="overflow: scroll; height: 50px;">
+                <button mat-raised-button color="primary" (click)="publishersearch(searchpublisher)">தேடு</button>
+                <p *ngIf="adminerror" style="color:red">{{this.adminerror}}</p>
+              </div>
+            </div>
+            <mat-form-field appearance="outline" style="width: 200px">
+              <mat-label>Filter</mat-label>
+              <input matInput type="text" (keyup)="applyFilterOne($any($event.target).value)" placeholder="வடிகட்டி"
+                style="width:20%">
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <br>
+            <table mat-table matSort [dataSource]="dataSourceOne" #TableOneSort="matSort" style="width: 100%;">
+              <ng-container matColumnDef="title_code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தலைப்பு </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="title_code"> {{row.title_code}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="author_code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> நூலாசிரியர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="author_code"> {{row.author_code}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="publisher_code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> பதிப்பகத்தார் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="publisher_code"> {{row.publisher_code}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="year">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> ஆண்டு </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="year"> {{row.year}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> காண்க </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="View">
+                  <button mat-raised-button color="primary" (click)="openbookedit(editbookModal,row)"><span
+                      class="material-icons">
+                      visibility
+                    </span></button>
+                </mat-cell>
+              </ng-container>
+              <br>
+              <mat-header-row *matHeaderRowDef="displayedColumnsOne"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumnsOne;">
+              </mat-row>
+            </table>
+            <mat-paginator #TableOnePaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"
+              style="display: inline-block;"></mat-paginator>
+          </div>
+        
+          <mat-card-actions align="end">
+            <button mat-raised-button color="primary"
+              [disabled]="searchpublisher==null && searchdata==null || searchpublisher=='' &&  searchdata==''||searchpublisher==null && searchdata==null || searchpublisher=='' ||  searchdata=='' ||searchpublisher==null ||  searchdata==null "
+              (click)="exportdata(searchpublisher)">Download</button>
+          </mat-card-actions>
+
+        </mat-card>
+      </div>
+      <div *ngIf="page=='view_author'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw; overflow:scroll;">
+            <br>
+            <br>
+            <h1 align="center" style="color:#3f51b5; overflow:hidden; white-space:nowrap; font-size: 32px;"><b>ஆசிரியர்
+                அட்டவணை</b></h1>
+            <br>
+            <mat-form-field appearance="outline" style="width: 200px">
+              <mat-label>Filter</mat-label>
+              <input matInput type="text" (keyup)="applyFilterTwo($any($event.target).value)" placeholder="Filter"
+                style="width:20%">
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <br>
+            <table mat-table matSort [dataSource]="dataSourceTwo" #TableTwoSort="matSort" style="width: 100%;">
+
+              <ng-container matColumnDef="aap_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தமிழ் பெயர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_name"> {{row.aap_name}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_name_english">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> ஆங்கில பெயர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_name_english"> {{row.aap_name_english}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_town">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> நகரம் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_town"> {{row.aap_town}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_contact">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தொடர்பு எண் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_contact"> {{row.aap_contact}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="View">
+
+                  <button mat-raised-button color="primary" (click)='openauthoredit(editauthorModal,row)'><span
+                      class="material-icons">
+                      visibility
+                    </span></button>
+                </mat-cell>
+              </ng-container>
+              <br>
+
+
+              <mat-header-row *matHeaderRowDef="displayedColumnsTwo"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumnsTwo;">
+              </mat-row>
+
+            </table>
+            <mat-paginator #TableTwoPaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"
+              style="display: inline-block;"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="page=='view_publisher'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw; overflow:scroll;">
+            <br>
+            <!-- <button mat-raised-button color="primary" (click)="opennewadddata(addadditonaldata)">Add New Brand</button> -->
+            <br>
+            <h1 align="center" style="color:#3f51b5; overflow:hidden; white-space:nowrap; font-size: 32px;">
+              <b>வெளியீட்டாளர் அட்டவணை</b></h1>
+            <br>
+            <!-- <lable>Search</lable> -->
+            <mat-form-field appearance="outline" style="width: 200px">
+              <mat-label>Filter</mat-label>
+              <input matInput type="text" (keyup)="applyFilterTwo($any($event.target).value)" placeholder="Filter"
+                style="width:20%">
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <br>
+            <table mat-table matSort [dataSource]="dataSourceTwo" #TableTwoSort="matSort" style="width: 100%;">
+
+              <ng-container matColumnDef="aap_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தமிழ் பெயர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_name"> {{row.aap_name}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_name_english">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> ஆங்கில பெயர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_name_english"> {{row.aap_name_english}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_town">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> நகரம்</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_town"> {{row.aap_town}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_contact">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தொடர்பு எண் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_contact"> {{row.aap_contact}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="View">
+
+                  <button mat-raised-button color="primary" (click)="openpublisheredit(editpublisherModal,row)"><span
+                      class="material-icons">
+                      visibility
+                    </span></button>
+                </mat-cell>
+              </ng-container>
+              <br>
+
+
+              <mat-header-row *matHeaderRowDef="displayedColumnsTwo"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumnsTwo;">
+              </mat-row>
+
+            </table>
+            <mat-paginator #TableTwoPaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"
+              style="display: inline-block;"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="page=='view_artist'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw; overflow:scroll;">
+            <br>
+            <!-- <button mat-raised-button color="primary" (click)="opennewadddata(addadditonaldata)">Add New Brand</button> -->
+            <br>
+            <h1 align="center" style="color:#3f51b5; overflow:hidden; white-space:nowrap; font-size: 32px;"><b>கலைஞர்
+                அட்டவணை</b></h1>
+            <br>
+            <!-- <lable>Search</lable> -->
+            <mat-form-field appearance="outline" style="width: 200px">
+              <mat-label>Filter</mat-label>
+              <input matInput type="text" (keyup)="applyFilterTwo($any($event.target).value)" placeholder="Filter"
+                style="width:20%">
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <br>
+            <table mat-table matSort [dataSource]="dataSourceTwo" #TableTwoSort="matSort" style="width: 100%;">
+
+              <ng-container matColumnDef="aap_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தமிழ் பெயர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_name"> {{row.aap_name}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_name_english">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> ஆங்கில பெயர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_name_english"> {{row.aap_name_english}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_town">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> நகரம் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_town"> {{row.aap_town}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_contact">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தொடர்பு எண் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="aap_contact"> {{row.aap_contact}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="View">
+
+                  <button mat-raised-button color="primary" (click)="openartistedit(editArtistModal,row)"><span
+                      class="material-icons">
+                      visibility
+                    </span></button>
+                </mat-cell>
+              </ng-container>
+              <br>
+
+
+              <mat-header-row *matHeaderRowDef="displayedColumnsTwo"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumnsTwo;">
+              </mat-row>
+
+            </table>
+            <mat-paginator #TableTwoPaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"
+              style="display: inline-block;"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="page=='view_subject'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw; overflow:scroll;">
+            <br>
+            <!-- <button mat-raised-button color="primary" (click)="opennewadddata(addadditonaldata)">Add New Brand</button> -->
+            <br>
+            <h1 align="center" style="color:#3f51b5; overflow:hidden; white-space:nowrap; font-size: 32px;"><b>துறைவகை
+                அட்டவணை</b></h1>
+            <br>
+            <!-- <lable>Search</lable> -->
+            <mat-form-field appearance="outline" style="width: 200px">
+              <mat-label>Filter</mat-label>
+              <input matInput type="text" (keyup)="applyFilterFive($any($event.target).value)" placeholder="Filter"
+                style="width:20%">
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <br>
+            <table mat-table matSort [dataSource]="dataSourceFive" #TableFiveSort="matSort" style="width: 100%;">
+
+              <ng-container matColumnDef="subject_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> துறைவகை பெயர் தமிழில் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="subject_name"> {{row.subject_name}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="subject_name_english">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> துறைவகை பெயர் ஆங்கிலம் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="subject_name_english"> {{row.subject_name_english}}
+                </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="branch">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> கிளை </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="branch"> {{row.branch}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="View">
+
+                  <button mat-raised-button color="primary" (click)="opensubjectedit(editsubjectModal,row)"><span
+                      class="material-icons">
+                      visibility
+                    </span></button>
+                </mat-cell>
+              </ng-container>
+              <br>
+
+
+              <mat-header-row *matHeaderRowDef="displayedColumnsFive"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumnsFive;">
+              </mat-row>
+
+            </table>
+            <mat-paginator #TableFivePaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"
+              style="display: inline-block;"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="page=='view_language'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw; overflow:scroll;">
+            <br>
+            <!-- <button mat-raised-button color="primary" (click)="opennewadddata(addadditonaldata)">Add New Brand</button> -->
+            <br>
+            <h1 align="center" style="color:#3f51b5; overflow:hidden; white-space:nowrap; font-size: 32px;"><b>மொழி
+                அட்டவணை</b></h1>
+            <br>
+            <!-- <lable>Search</lable> -->
+            <mat-form-field appearance="outline" style="width: 200px">
+              <mat-label>Filter</mat-label>
+              <input matInput type="text" (keyup)="applyFilterFour($any($event.target).value)" placeholder="Filter"
+                style="width:20%">
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <br>
+            <table mat-table matSort [dataSource]="dataSourceFour" #TableFourSort="matSort" style="width: 100%;">
+
+              <ng-container matColumnDef="language_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தமிழில் மொழி பெயர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="language_name"> {{row.language_name}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="language_name_english">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>ஆங்கிலத்தில் மொழி பெயர் </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="language_name_english"> {{row.language_name_english}}
+                </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="View">
+
+                  <button mat-raised-button color="primary" (click)="openlanguageedit(editlanguageModal,row)"><span
+                      class="material-icons">
+                      visibility
+                    </span></button>
+                </mat-cell>
+              </ng-container>
+              <br>
+
+
+              <mat-header-row *matHeaderRowDef="displayedColumnsFour"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumnsFour;">
+              </mat-row>
+
+            </table>
+            <mat-paginator #TableFourPaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"
+              style="display: inline-block;"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="page=='view_category'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw;">
+            <br>
+            <!-- <button mat-raised-button color="primary" (click)="opennewadddata(addadditonaldata)">Add New Brand</button> -->
+            <br>
+            <h1 align="center" style="color:#3f51b5; overflow:hidden; white-space:nowrap; font-size: 32px;"><b>வகை
+                அட்டவணை</b></h1>
+            <br>
+            <!-- <lable>Search</lable> -->
+            <mat-form-field appearance="outline" style="width: 200px">
+              <mat-label>Filter</mat-label>
+              <input matInput type="text" (keyup)="applyFilterThree($any($event.target).value)" placeholder="Filter"
+                style="width:20%">
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field>
+            <br>
+            <table mat-table matSort [dataSource]="dataSourceThree" #TableThreeSort="matSort" style="width: 100%;">
+
+              <ng-container matColumnDef="category_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> தமிழில் வகை </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="category_name"> {{row.category_name}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="category_name_english">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> ஆங்கிலத்தில் வகை </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="category_name_english"> {{row.category_name_english}}
+                </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="View">
+
+                  <button mat-raised-button color="primary" (click)="opencategoryedit(editcategoryModal,row)"><span
+                      class="material-icons">
+                      visibility
+                    </span></button>
+                </mat-cell>
+              </ng-container>
+              <br>
+
+
+              <mat-header-row *matHeaderRowDef="displayedColumnsThree"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumnsThree;">
+              </mat-row>
+
+            </table>
+            <mat-paginator #TableThreePaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"
+              style="display: inline-block;"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="page=='userslist'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw;">
+            <br>
+            <br>
+            <h1 align="center" style="color:#3f51b5; overflow:hidden; white-space:nowrap; font-size: 32px;"><b>பயனர்
+                அட்டவணை</b></h1>
+            <br>
+            <!-- <mat-form-field appearance="outline" style="width: 200px">
+              <mat-label>Filter</mat-label>
+              <input matInput type="text" (keyup)="applyFilterSix($any($event.target).value)" placeholder="Filter"
+                style="width:20%">
+              <mat-icon matSuffix>filter_list</mat-icon>
+            </mat-form-field> -->
+            <br>
+            <table mat-table matSort [dataSource]="dataSourceSix" #TableSixSort="matSort" style="width: 100%;">
+
+              <ng-container matColumnDef="aap_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name in Tamil </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Name"> {{row.aap_name}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="aap_name_english">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name in English </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Name_English"> {{row.aap_name_english}}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="aap_contact">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Contact </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Aap Contact"> {{row.aap_contact}}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="aap_type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Type"> {{row.aap_type}}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="activation_status">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Activation Status </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="Activation Status">
+                  <button mat-raised-button class="btn btn-success mr-3" [disabled]="row.activation_status=='enabled'"
+                    (click)="enableuser(row.aap_ids)"><span class="material-icons">
+                      check_circle
+                    </span></button>
+                  <button mat-raised-button class="btn btn-danger" style="margin-left:20px; color:white"
+                    [disabled]="row.activation_status=='disabled'" (click)="disableuser(row.aap_ids)"><span
+                      class="material-icons">
+                      dangerous
+                    </span></button>
+                </mat-cell>
+
+              </ng-container>
+
+              <br>
+
+
+              <mat-header-row *matHeaderRowDef="displayedColumnsSix"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumnsSix;">
+              </mat-row>
+
+            </table>
+            <mat-paginator #TableSixPaginator="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]"
+              style="display: inline-block;"></mat-paginator>
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="page=='profile'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw;">
+
+
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="page=='help'" style="overflow:scroll;">
+        <mat-card>
+          <div style="height: 80vh; width: 90vw;">
+            <!-- <B>Developed by Anime Workers</B><br>
+            <B>Email:- animeworker.risk@gmail.com</B> -->
+
+          </div>
+        </mat-card>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+
+  <ng-template #selectsubjectModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title"> புதிய பாடங்களை உருவாக்கவும்</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="onCloseselectsubjectModal()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="Subject Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>பாடம் தமிழில்</mat-label>
+            <input matInput placeholder="பாடம் தமிழில்" [(ngModel)]="subject_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Subject Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>ஆங்கிலத்தில் பாடம்</mat-label>
+            <input matInput placeholder="ஆங்கிலத்தில் பாடம்" [(ngModel)]="subject_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <meta name="branch Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>கிளை பெயர்</mat-label>
+            <input matInput placeholder="கிளை பெயர்" [(ngModel)]="subject_branch">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <!-- <meta name="topic Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>topic Name (English)</mat-label>
+            <input matInput placeholder="topic Name" [(ngModel)]="subject_topic" >
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div> -->
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button align="right" mat-raised-button color="primary" (click)="onsubmitsubject()">submit</button>
+
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #selectcatogoryModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">புதிய வகையை உருவாக்கவும்</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="onCloseselectcatogorytModal()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="category Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>தமிழில் வகை</mat-label>
+            <input matInput placeholder="தமிழில் வகை" [(ngModel)]="category_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="category Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>ஆங்கிலத்தில் வகை</mat-label>
+            <input matInput placeholder="ஆங்கிலத்தில் வகை" [(ngModel)]="category_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+
+        <button align="right" mat-raised-button color="primary" (click)="onsubmitcategory()">submit</button>
+      </div>
+    </div>
+
+  </ng-template>
+
+  <ng-template #selectlanguageModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Create New Language</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="onCloseselectlanguagetModal()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="Language Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Language Name (Tamil)</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="language_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Language Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Language Name (English)</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="language_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button align="right" mat-raised-button color="primary" (click)="onsubmitlanguage()">submit</button>
+      </div>
+    </div>
+
+  </ng-template>
+
+  <ng-template #selectauthorModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Create New Author</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="onCloseselectauthortModal()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="Author Name Tamil">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Name (Tamil)</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="aap_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Name English">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Name (English)</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="aap_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <meta name="Author Address">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Address</mat-label>
+            <input matInput placeholder="Author Address" [(ngModel)]="aap_address">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Contact">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Contact</mat-label>
+            <input matInput placeholder="Author Address" [(ngModel)]="aap_contact">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <meta name="Author Profile">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Profile</mat-label>
+            <textarea matInput placeholder="Author Profile" [(ngModel)]="aap_profile"> </textarea>
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Profile">
+        <div class="col-1">
+
+        </div>
+        <div align="centered" class="col-5" style="padding-right:10px ;">
+          <div class="col-2" align="right">
+            <mat-slide-toggle [(ngModel)]="newimageaapboo"></mat-slide-toggle>
+          </div>
+          <div class="col-10">
+            <label>Profile Picture</label><br>
+            <!-- <input type="file" #selectFile value="select" newimageaapboo (change)="onfileSelectedpublisher($event)"> -->
+            <input type="file" (change)="onChange($event)" [disabled]="newimageaapboo==false" />
+            <div *ngIf="myimage">
+              <img [src]="myimage" width="50px" height="50px" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Town</mat-label>
+            <input matInput placeholder="Author Town" [(ngModel)]="aap_town" />
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <div align="end">
+          <p style="color:red">{{adminerror}}</p>
+          <button align="right" mat-raised-button color="primary" (click)="onsubmitauthor()">submit</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #selectartistModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Create New Artist</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="onCloseselectartisttModal()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="artist Name Tamil">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>artist Name (Tamil)</mat-label>
+            <input matInput placeholder="artist Name" [(ngModel)]="aap_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="artist Name English">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>artist Name (English)</mat-label>
+            <input matInput placeholder="artist Name" [(ngModel)]="aap_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <meta name="artist Address">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>artist Address</mat-label>
+            <input matInput placeholder="artist Address" [(ngModel)]="aap_address">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="artist Contact">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>artist Contact</mat-label>
+            <input matInput placeholder="artist Address" [(ngModel)]="aap_contact">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <meta name="artist Profile">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>artist Profile</mat-label>
+            <input matInput placeholder="artist Profile" [(ngModel)]="aap_profile">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="artist Profile">
+        <!-- <div align="centered" class="col-5" style="padding-right:10px ;">
+                <div>
+              <label>Profile Picture</label><br>
+                <input type="file" (change)="onChange($event)" />
+              <div *ngIf="myimage">
+              <img [src]="myimage" width="50px" height="50px" alt="" />
+            </div>
+            </div> 
+              </div>-->
+        <div class="col-1">
+        </div>
+        <div align="centered" class="col-5" style="padding-right:10px ;">
+          <!-- <div>
+            <label>Profile Picture</label><br>
+            <input type="file" #selectFile value="select" (change)="onfileSelectedpublisher($event)">
+            <input type="file" (change)="onChange($event)" /> -->
+          <div class="col-2" align="right">
+            <mat-slide-toggle [(ngModel)]="newimageaapboo"></mat-slide-toggle>
+          </div>
+          <div class="col-10">
+            <label>Profile Picture</label><br>
+            <!-- <input type="file" #selectFile value="select" newimageaapboo (change)="onfileSelectedpublisher($event)"> -->
+            <input type="file" (change)="onChange($event)" [disabled]="newimageaapboo==false" />
+            <div *ngIf="myimage">
+              <img [src]="myimage" width="50px" height="50px" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>artist Town</mat-label>
+            <input matInput placeholder="artist Town" [(ngModel)]="aap_town" />
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <div align="end">
+          <p style="color:red">{{adminerror}}</p>
+          <button align="right" mat-raised-button color="primary" (click)="onsubmitartist()">submit</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #selectpublisherModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Create New Publisher</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="onCloseselectpublishertModal()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="Publisher Name Tamil">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Publisher Name (Tamil)</mat-label>
+            <input matInput placeholder="Publisher Name" [(ngModel)]="aap_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Publisher Name English">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Publisher Name (English)</mat-label>
+            <input matInput placeholder="Publisher Name" [(ngModel)]="aap_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <meta name="Publisher Address">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Publisher Address</mat-label>
+            <input matInput placeholder="Publisher Address" [(ngModel)]="aap_address">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Publisher Contact">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Publisher Contact</mat-label>
+            <input matInput placeholder="Publisher Address" [(ngModel)]="aap_contact">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <meta name="Publisher Profile">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Publisher Profile</mat-label>
+            <input matInput placeholder="Publisher Profile" [(ngModel)]="aap_profile">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Publisher Profile">
+        <!-- <div align="centered" class="col-5" style="padding-right:10px ;">
+                  <div>
+                <label>LOGO Picture</label><br>
+                  <input type="file" (change)="onChange($event)" />
+                <div *ngIf="myimage">
+                <img [src]="myimage" width="50px" height="50px" alt="" />
+              </div>
+              </div>
+                </div> -->
+        <div class="col-1">
+        </div>
+        <div align="centered" class="col-5" style="padding-right:10px ;">
+          <!-- <div>
+            <label>Profile Picture</label><br>
+            <input type="file" #selectFile value="select" (change)="onfileSelectedpublisher($event)">
+            <input type="file" (change)="onChange($event)" /> -->
+          <div class="col-2" align="right">
+            <mat-slide-toggle [(ngModel)]="newimageaapboo"></mat-slide-toggle>
+          </div>
+          <div class="col-10">
+            <label>Profile Picture</label><br>
+            <!-- <input type="file" #selectFile value="select" newimageaapboo (change)="onfileSelectedpublisher($event)"> -->
+            <input type="file" (change)="onChange($event)" [disabled]="newimageaapboo==false" />
+            <div *ngIf="myimage">
+              <img [src]="myimage" width="50px" height="50px" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Publisher Town</mat-label>
+            <input matInput placeholder="artist Town" [(ngModel)]="aap_town" />
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button align="right" mat-raised-button color="primary" (click)="onsubmitpublisher()">submit</button>
+      </div>
+
+    </div>
+  </ng-template>
+
+  <ng-template #editlanguageModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Edit Language {{datavalue.language_name}}</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closelanguageedit()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      {{datavalue[0]}}
+      <div class="row">
+        <meta name="Language Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Language Name (Tamil)</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="datavalue.language_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Language Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Language Name (English)</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="datavalue.language_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button mat-raised-button color="primary" (click)="putlanguagedata()">submit</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #editcategoryModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">வகையைத் திருத்தவும் {{datavalue.category_name}}</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closecategoryedit()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="category Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>தமிழில் வகை</mat-label>
+            <input matInput placeholder="தமிழில் வகை" [(ngModel)]="datavalue.category_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="category Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>ஆங்கிலத்தில் வகை</mat-label>
+            <input matInput placeholder="ஆங்கிலத்தில் வகை" [(ngModel)]="datavalue.category_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button align="right" mat-raised-button color="primary" (click)="putcatgorydata()">submit</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #editsubjectModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">தலைப்பைத் திருத்தவும் {{datavalue.subject_name}}</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closesubjectedit()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="subject Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>பாடம் தமிழில் </mat-label>
+            <input matInput placeholder="பாடம் தமிழில்" [(ngModel)]="datavalue.subject_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="subject Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>ஆங்கிலத்தில் பாடம்</mat-label>
+            <input matInput placeholder="ஆங்கிலத்தில் பாடம்" [(ngModel)]="datavalue.subject_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="branch">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>கிளை பெயர்</mat-label>
+            <input matInput placeholder="கிளை பெயர்" [(ngModel)]="datavalue.branch">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button align="right" mat-raised-button color="primary" (click)="putsubjectdata()">submit</button>
+
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #editauthorModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Edid Author {{datavalue.aap_name}}</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeauthoredit()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="Author Name (Tamil)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Name (Tamil)</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="datavalue.aap_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Name (English)</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="datavalue.aap_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Phone">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Phone</mat-label>
+            <input matInput placeholder="Author Name" [(ngModel)]="datavalue.aap_contact">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Address">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Address</mat-label>
+            <input matInput placeholder="Author Address" [(ngModel)]="datavalue.aap_address">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Town">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Town</mat-label>
+            <input matInput placeholder="Author Town" [(ngModel)]="datavalue.aap_town">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Profile">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Author Profile</mat-label>
+            <input matInput placeholder="Author Profile" [(ngModel)]="datavalue.aap_profile">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author toggle">
+        <div class="col-12">
+          <mat-slide-toggle [(ngModel)]="newaapdatanewuser"> Swipe To enable the username and
+            password</mat-slide-toggle>
+        </div>
+        <br>
+        <meta name="Author username">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" [(ngModel)]="datavalue.aap_username"
+              [disabled]="newaapdatanewuser==false">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author password">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" [(ngModel)]="newpassword" [disabled]="newaapdatanewuser==false">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author Photo">
+        <div align="center" class="col-6">
+          <img *ngIf="imagedataboo" src={{imagedata}} alt="Photo of the Author" width="100px" height="100px" style="border: 2px solid #C0C0C0;
+          padding: 5px;">
+        </div>
+        <meta name="Author Photo">
+
+        <div class="col-1">
+          <mat-slide-toggle [(ngModel)]="newimagedataboo"></mat-slide-toggle>
+        </div>
+        <div align="centered" class="col-5" style="padding-right:10px ;">
+          <div>
+            <label>New Profile Picture</label><br>
+            <input type="file" (change)="onChange($event)" [disabled]="newimagedataboo==false" />
+            <div *ngIf="myimage">
+              <img [src]="myimage" width="50px" height="50px" alt="" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button align="right" mat-raised-button color="primary" (click)="putaapdata()">submit</button>
+      </div>
+
+    </div>
+  </ng-template>
+
+  <ng-template #editArtistModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Edit Artist {{datavalue.aap_name}} </h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeartistedit()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="Artist Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Artist Name (Tamil)</mat-label>
+            <input matInput placeholder="Artist Name" [(ngModel)]="datavalue.aap_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Artist Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Artist Name (English)</mat-label>
+            <input matInput placeholder="Artist Name" [(ngModel)]="datavalue.aap_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Artist Phone">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Artist Phone</mat-label>
+            <input matInput placeholder="Artist Name" [(ngModel)]="datavalue.aap_contact">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Artist Address">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Artist Address</mat-label>
+            <input matInput placeholder="Artist Address" [(ngModel)]="datavalue.aap_address">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Artist Town">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Artist Town</mat-label>
+            <input matInput placeholder="Artist Town" [(ngModel)]="datavalue.aap_town">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Artist Profile">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Artist Profile</mat-label>
+            <input matInput placeholder="Artist Profile" [(ngModel)]="datavalue.aap_profile">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author toggle">
+        <div class="col-12">
+          <mat-slide-toggle [(ngModel)]="newaapdatanewuser"> Swipe To enable the username and
+            password</mat-slide-toggle>
+        </div>
+        <br>
+        <meta name="Author username">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" [(ngModel)]="datavalue.aap_username"
+              [disabled]="newaapdatanewuser==false">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author password">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" [(ngModel)]="newpassword" [disabled]="newaapdatanewuser==false">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Artist Photo">
+        <div align="center" class="col-6">
+          <img *ngIf="imagedataboo" src={{imagedata}} alt="Photo of the Artist" width="100px" height="100px" style="border: 2px solid #C0C0C0;
+          padding: 5px;">
+        </div>
+        <meta name="Artist Photo">
+
+        <div class="col-1">
+          <mat-slide-toggle [(ngModel)]="newimagedataboo"></mat-slide-toggle>
+        </div>
+        <div align="centered" class="col-5" style="padding-right:10px ;">
+          <div>
+            <label>New Profile Picture</label><br>
+            <input type="file" (change)="onChange($event)" [disabled]="newimagedataboo==false" />
+            <div *ngIf="myimage">
+              <img [src]="myimage" width="50px" height="50px" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <!-- <meta name="Artist Photo">
+        <div align="center" class="col-6">
+          <img *ngIf="imagedataboo" src={{imagedata}} alt="Photo of the Artist" width="100px" height="100px" style="border: 2px solid #C0C0C0;
+          padding: 5px;">
+        </div>
+        <meta name="Artist Photo">
+
+        <div class="col-1">
+          <mat-slide-toggle [(ngModel)]="newimagedataboo">Slide me!</mat-slide-toggle>
+        </div>
+        <div align="centered" class="col-5" style="padding-right:10px ;">
+          <div>
+            <label>New Profile Picture</label><br>
+            <input type="file" (change)="onChange($event)" [disabled]="newimagedataboo==false" />
+            <div *ngIf="myimage">
+              <img [src]="myimage" width="50px" height="50px" alt="" />
+            </div>
+          </div>
+        </div> -->
+
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button align="right" mat-raised-button color="primary" (click)="putaapdata()">submit</button>
+
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #editpublisherModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Edit Publisher {{datavalue.aap_name}} </h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closepublisheredit()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <div class="row">
+        <meta name="publisher Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>publisher Name (Tamil)</mat-label>
+            <input matInput placeholder="publisher Name" [(ngModel)]="datavalue.aap_name">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="publisher Name (English)">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>publisher Name (English)</mat-label>
+            <input matInput placeholder="publisher Name" [(ngModel)]="datavalue.aap_name_english">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="publisher Phone">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>publisher Phone</mat-label>
+            <input matInput placeholder="publisher Name" [(ngModel)]="datavalue.aap_contact">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="publisher Address">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>publisher Address</mat-label>
+            <input matInput placeholder="publisher Address" [(ngModel)]="datavalue.aap_address">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="publisher Town">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>publisher Town</mat-label>
+            <input matInput placeholder="publisher Town" [(ngModel)]="datavalue.aap_town">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="publisher Profile">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>publisher Profile</mat-label>
+            <input matInput placeholder="publisher Profile" [(ngModel)]="datavalue.aap_profile">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author toggle">
+        <div class="col-12">
+          <mat-slide-toggle [(ngModel)]="newaapdatanewuser"> Swipe To enable the username and
+            password</mat-slide-toggle>
+        </div>
+        <br>
+        <meta name="Author username">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" [(ngModel)]="datavalue.aap_username"
+              [disabled]="newaapdatanewuser==false">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Author password">
+        <div align="center" class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" [(ngModel)]="newpassword" [disabled]="newaapdatanewuser==false">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <meta name="Artist Photo">
+        <div align="center" class="col-6">
+          <img *ngIf="imagedataboo" src={{imagedata}} alt="Photo of the Artist" width="100px" height="100px" style="border: 2px solid #C0C0C0;
+          padding: 5px;">
+        </div>
+        <meta name="Artist Photo">
+
+        <div class="col-1">
+          <mat-slide-toggle [(ngModel)]="newimagedataboo"></mat-slide-toggle>
+        </div>
+        <div align="centered" class="col-5" style="padding-right:10px ;">
+          <div>
+            <label>New Profile Picture</label><br>
+            <input type="file" (change)="onChange($event)" [disabled]="newimagedataboo==false" />
+            <div *ngIf="myimage">
+              <img [src]="myimage" width="50px" height="50px" alt="" />
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div align="end">
+        <p style="color:red">{{adminerror}}</p>
+        <button align="right" mat-raised-button color="primary" (click)="putaapdata()">submit</button>
+      </div>
+
+    </div>
+  </ng-template>
+
+  <ng-template #editbookModal let-modal>
+
+    <div class="modal-header"
+      style="background: linear-gradient(135deg, #A460ED, #7743DB);color:white;font-size:larger;">
+      <h4 class="modal-title">Edit Book {{datavalue.title_code}}</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closepublisheredit()"></button>
+    </div>
+    <div class="modal-body" style="background:#e9f1fc ;">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="row">
+            <meta name="ISBN">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>ISBN</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="இச்ப்ன்" [(ngModel)]="datavalue.isbn">
+              </div>
+            </div>
+            <meta name="CCNO">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>CCNO</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="ccno" [(ngModel)]="datavalue.ccno">
+              </div>
+            </div>
+            <meta name="title_code">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>Title</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="Title" [(ngModel)]="datavalue.title_code">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <meta name="sub_title_code">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>sub_title</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="Sub Title" [(ngModel)]="datavalue.sub_title_code">
+              </div>
+            </div>
+            <meta name="subject_code">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>பொருள்</mat-label>
+              </div>
+              <div class="col-8">
+                <mat-select class="form-control" [(ngModel)]="datavalue.subject_code">
+                  <mat-option *ngFor="let sub of listofsubject" [value]="sub.subject_name">
+                    {{sub.subject_name}}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+
+            <meta name="category">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>வகை </mat-label>
+              </div>
+              <div class="col-8">
+                <mat-select class="form-control" [(ngModel)]="datavalue.category">
+                  <mat-option *ngFor="let category of listofcategory" [value]="category.category_name">
+                    {{category.category_name}}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+
+          </div>
+          <br>
+          <div class="row">
+
+            <meta name="language_code">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label> Language </mat-label>
+              </div>
+              <div class="col-8">
+                <mat-select class="form-control" [(ngModel)]="datavalue.language_code">
+                  <mat-option *ngFor="let lan of listoflanguage" [value]="lan.language_name">
+                    {{lan.language_name}}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+
+            <meta name="author_code">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label> Author </mat-label>
+              </div>
+              <div class="col-8">
+                <mat-select class="form-control" [(ngModel)]="datavalue.author_code">
+                  <mat-option *ngFor="let author of listofauthor" [value]="author.aap_name">
+                    {{author.aap_name}}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+
+            <meta name="artist_code">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label> Artist </mat-label>
+              </div>
+              <div class="col-8">
+                <mat-select class="form-control" [(ngModel)]="datavalue.artist_code">
+                  <mat-option *ngFor="let artist of listofartist" [value]="artist.aap_name">
+                    {{artist.aap_name}}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <meta name="publisher_code">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label> Publishers </mat-label>
+              </div>
+              <div class="col-8">
+                <mat-select class="form-control" [(ngModel)]="datavalue.publisher_code">
+                  <mat-option *ngFor="let publisher of listofpublisher" [value]="publisher.aap_name">
+                    {{publisher.aap_name}}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+
+            <meta name="size">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>Size</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="Size" [(ngModel)]="datavalue.size">
+              </div>
+            </div>
+            <meta name="Pages">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>Pages</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="Pages" [(ngModel)]="datavalue.pages">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="row">
+            <meta name="edition">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>Edition</mat-label>
+              </div><br>
+              <div class="col-8">
+                <input class="form-control" placeholder="Edition" [(ngModel)]="datavalue.edition">
+              </div>
+            </div>
+            <meta name="reprint">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>reprint</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="reprint" [(ngModel)]="datavalue.reprint">
+              </div>
+            </div>
+
+
+            <meta name="year">
+            <div class="row col-4">
+
+              <div class="col-4">
+                <mat-label>Year</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="Year" [(ngModel)]="datavalue.year">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row ">
+            <meta name="copyrights">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>Copy Rights</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="Copy Rights" [(ngModel)]="datavalue.copy_rights">
+              </div>
+            </div>
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>Binding</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="Binding" [(ngModel)]="datavalue.binding">
+              </div>
+            </div>
+
+            <div class="row col-4">
+
+              <meta name="price">
+              <div class="col-4">
+                <mat-label>Price </mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="Price" [(ngModel)]="datavalue.price">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <meta name="weight">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>weight</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="weight" [(ngModel)]="datavalue.weight">
+              </div>
+            </div>
+
+            <meta name="annexures">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>annexures</mat-label>
+              </div>
+              <div class="col-8">
+                <input class="form-control" placeholder="annexures" [(ngModel)]="datavalue.annexures">
+              </div>
+            </div>
+
+
+            <meta name="prizes">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>prizes</mat-label>
+              </div><br>
+              <div class="col-8">
+                <input class="form-control" placeholder="prizes" [(ngModel)]="datavalue.prizes">
+              </div>
+
+
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+
+            <meta name="miscellaneous">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>miscellaneous</mat-label>
+              </div><br>
+              <div class="col-8">
+                <input class="form-control" placeholder="miscellaneous" [(ngModel)]="datavalue.miscellaneous">
+              </div>
+            </div>
+            <div class="row col-4">
+              <meta name="Summary_of_the_book">
+              <div class="col-4">
+                <mat-label>Summary Of The Book</mat-label>
+              </div><br>
+              <div class="col-8">
+                <textarea class="form-control" placeholder="Summary_of_the_book"
+                  [(ngModel)]="datavalue.Summary_of_the_book"> </textarea>
+              </div>
+
+            </div>
+            <meta name="visibility">
+            <div class="row col-4">
+              <div class="col-4">
+                <mat-label>visibility</mat-label>
+              </div>
+              <div class="col-8">
+                <mat-slide-toggle [(ngModel)]="datavalue.visibility">{{datavalue.visibility}}</mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <br>
+            <div class="col-5">
+
+            </div>
+            <div class="col-1">
+              <mat-slide-toggle [(ngModel)]="newimagedataboo"></mat-slide-toggle>
+            </div>
+
+            <div class="row">
+              <div align="center" class="col-3">
+                <label>Cover Picture</label>
+              </div>
+              <div align="center" class="col-3">
+                <input [disabled]="newimagedataboo==false" type="file" (change)="onimageload($event)" />
+                <div *ngIf="myimage">
+                  <img [src]="myimage" width="50px" height="50px" alt="" />
+                </div>
+              </div>
+            </div>
+            <div class="col-5">
+              <!-- <div align="center">        <img  *ngIf="datavalue.cover_image!='null'" mat-card-image [lazyLoad]="datavalue.cover_image" src={{datavalue.cover_image}} alt="Cover photo" style="width: 100%; max-width: 400px; height: auto; max-height: 580px; border: 2px solid #C0C0C0;   padding: 5px;" height="600px" weight="50px">
+              <H1 *ngIf="datavalue.cover_image=='null'">No Images</H1>
+              </div> -->
+              <mat-card class="example-card">
+                <mat-card-title-group>
+                  <mat-card-title><b> Title: {{datavalue.title_code}} </b></mat-card-title>
+                  <mat-card-subtitle>Author: {{datavalue.author_code}}<br>Publisher:
+                    {{datavalue.publisher_code}}<br>Artist: {{datavalue.artist_code}}<br>ISBN: {{datavalue.isbn}}
+                    <br> <b>@நூலகம் தமிழ் நூல் பட்டியல்</b>
+                  </mat-card-subtitle>
+                  <H1 *ngIf="datavalue.cover_image=='null'" mat-card-sm-image>No Images</H1>
+                  <img *ngIf="datavalue.cover_image!='null'" mat-card-sm-image [lazyLoad]="datavalue.cover_image"
+                    src={{datavalue.cover_image}} alt="Cover photo" style="height: auto;" weight="50px">
+                </mat-card-title-group>
+                <mat-card-content>
+                  About the book: {{datavalue.Summary_of_the_book}}
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-1">
+              <mat-slide-toggle [(ngModel)]="pdfdataboo"></mat-slide-toggle>
+            </div>
+            <div class="row">
+              <div align="center" class="col-3">
+                <label>Upload Book PDF</label>
+              </div>
+              <div align="center" class="col-3">
+                <input [disabled]="pdfdataboo==false" type="file" (change)="onpdfload($event)">
+              </div>
+            </div>
+          </div>
+
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+
+          <p style="color:red">{{adminerror}}</p>
+          <button [disabled]="this.datavalue.book_pdf=='null'" mat-raised-button color="accent"
+            (click)=" onClick()"><span class="material-icons">
+              file_download
+            </span></button>
+          <button style="margin: 10px;" mat-raised-button color="primary" (click)="editbooksave()">submit</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-template>

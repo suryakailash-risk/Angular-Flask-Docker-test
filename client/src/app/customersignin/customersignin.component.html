@@ -1,0 +1,76 @@
+
+    
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Login Form Design</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <!-- background:linear-gradient(135deg, #EEF1FF, #B1B2FF) -->
+    <body style=" background-image: url('/assets/books.jpg');background-size:cover; background-repeat: no-repeat;"> 
+      <div class="flash">
+        <flash-messages></flash-messages>
+      </div>
+      <div align="center" style="font-size:70px; font-weight: bolder; color: white;">தமிழ் நூல் பட்டியல்</div>
+        <div class="container">
+          
+            <div class="myCard">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="myLeftCtn"> 
+                            <form class="myForm text-center">
+                                <header>உங்கள் கணக்கில் உள்நுழைக</header>
+                                <div class="user-details">
+                                  <div>
+                                    <mat-form-field appearance="outline">
+                                      <mat-label>பயனர் பெயர்</mat-label>
+                                      <input matInput placeholder="பயனர்பெயரை உள்ளிடவும்" [(ngModel)]="username"
+                                        [ngModelOptions]="{standalone: true}" autocomplete="off">
+                                      <mat-icon matSuffix>verified_user</mat-icon>
+                                    </mat-form-field>
+                                  </div>
+                                  <div>
+                                    <mat-form-field appearance="outline">
+                                      <mat-label>கடவுச்சொல்</mat-label>
+                                      <input matInput [type]="password1" placeholder="கடவுச்சொல்லை உள்ளிடவும்" [(ngModel)]="password"
+                                        [ngModelOptions]="{standalone: true}" autocomplete="off">
+                                      <mat-icon matSuffix (click)="onClick()" *ngIf="!show">visibility</mat-icon>
+                                      <mat-icon matSuffix (click)="onClick()" *ngIf="show">visibility_off</mat-icon>
+                                    </mat-form-field>
+                                  </div>
+                                  <div>
+                                </div>
+                                  <p style="color:red;">{{errorMsg}}</p>
+                                </div>
+                                <br>
+    
+                                <input type="submit" class="butt" (click)="sub()" value="உள்நுழைய">
+                                <br>
+                                <br>
+                                
+                                <input type="submit" class="butt" (click)="backtologin()" value="பதிவு செய்யவும்">
+                                
+                            </form>
+                        </div>
+                    </div> 
+                    <div class="col-md-6">
+                        <div class="myRightCtn">
+                                <div class="box" >
+                                  <header>வணக்கம்!</header>
+                                
+                                <!-- <p style="color:white">Thank You for choosing us!</p> -->
+                                <!-- <div style="background-image: url('/assets/11070.svg');background-size:cover; background-repeat: no-repeat;" >
+                                    </div> -->
+                                </div>
+                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+          
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     
+  
