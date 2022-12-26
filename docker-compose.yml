@@ -32,7 +32,7 @@ services:
 
   data:
    container_name: app_data_demo_container
-   image: postgres:9.6
+   image: postgres:14.4
    volumes:
      - /var/lib/postgresql
    command: "true"
