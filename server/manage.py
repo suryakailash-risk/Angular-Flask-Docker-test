@@ -5,35 +5,35 @@ python test_suite test
 python test_suite cov
 """
 
-# import unittest
-# from coverage import coverage
-# from flask_script import Manager
+import unittest
+from coverage import coverage
+from flask_script import Manager
 
-# from server.main import db
-# from server.main.api import create_app_blueprint
-# from server.main.models.user import User
+from server.main import db
+from server.main.api import create_app_blueprint
+from server.main.models.user import User
 
-# COV = coverage(
-#     branch=True,
-#     include='main/*',
-#     omit=[
-#         'tests/*',
-#         'wsgi.py',
-#         'settings.py',
-#         '__init__.py',
-#         'main/*/__init__.py'
-#         'main/static/*'
-#         'main/templates/*'
-#         'main/import_policy/*'
-#         'main/models/*'
-#     ]
-# )
+COV = coverage(
+    branch=True,
+    include='main/*',
+    omit=[
+        'tests/*',
+        'wsgi.py',
+        'settings.py',
+        '__init__.py',
+        'main/*/__init__.py'
+        'main/static/*'
+        'main/templates/*'
+        'main/import_policy/*'
+        'main/models/*'
+    ]
+)
 
-# COV.start()
+COV.start()
 
-# # create flask application instance
-# app = create_app_blueprint('development')
-# manager = Manager(app)
+# create flask application instance
+app = create_app_blueprint('development')
+manager = Manager(app)
 
 
 # @manager.command
@@ -81,5 +81,5 @@ python test_suite cov
 # #     ))
 # #     db.session.commit()
 
-# if __name__ == '__main__':
-#     manager.run()
+if __name__ == '__main__':
+    manager.run()
